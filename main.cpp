@@ -1,4 +1,3 @@
-#include <iostream>
 #include "forwardList.h"
 using namespace std;
 

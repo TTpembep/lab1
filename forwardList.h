@@ -12,8 +12,9 @@ struct Node {   //Структура данных для узла односвя
 };
 struct fList {  //Структура данных для односвязанного списка
     Node* head;
+    Node* tail;
 
-    fList() : head(nullptr) {}
+    fList() : head(nullptr), tail(nullptr) {}
 
     ~fList() {  //Деструктор
         clear();
@@ -28,13 +29,11 @@ struct fList {  //Структура данных для односвязанн�
         Node* newNode = new Node(data);
         if (head == nullptr) {
             head = newNode;
+            tail - newNode;
             return;
         }
-        Node* current = head;
-        while (current->next != nullptr) {
-            current = current->next;
-        }
-        current->next = newNode;
+        tail->next = newNode;
+        tail = newNode;
     }
     Node* find(const string& data) {    //Поиск элемента в списке
         Node* current = head;
@@ -46,28 +45,46 @@ struct fList {  //Структура данных для односвязанн�
         }
         return nullptr;
     }    
-    void remove(const string& data) {   //Удаление элемента из списка
-        if (head == nullptr) {
+    void remove_head() {   //Удаление первого элемента
+        if (head == nullptr) return;
+        Node* p = head;
+        head = p->next;
+        delete p;
+    }
+    void remove_tail() {    //Удаление последнего элемента
+        if (head == nullptr) return;
+        if (head == tail) {
+            remove_head();
             return;
         }
-
+        Node* p = head;
+        while (p->next != tail) p = p->next;
+        p->next = nullptr;
+        delete tail;
+        tail = p;
+    }
+    void remove(string data) {  //Удаление определённого элемента
+        if (head == nullptr) return;
         if (head->data == data) {
-            Node* temp = head;
-            head = head->next;
-            delete temp;
+            remove_head();
             return;
         }
-
-        Node* current = head;
-        while (current->next != nullptr) {
-            if (current->next->data == data) {
-                Node* temp = current->next;
-                current->next = current->next->next;
-                delete temp;
-                return;
-            }
-            current = current->next;
+        else if (tail->data == data) {
+            remove_tail();
+            return;
         }
+        Node* slow = head;
+        Node* fast = head->next;
+        while (fast && fast->data != data) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        if (!fast) {
+            cout << "This element does not exist" << endl;
+            return;
+        }
+        slow->next = fast->next;
+        delete fast;
     }
     void print() {  //Вывод всех элементов списка
         Node* current = head;
@@ -86,23 +103,15 @@ struct fList {  //Структура данных для односвязанн�
         }
         head = nullptr;
     }
-};
-struct Schema { //Структура данных для хранения информации о схеме
-    string name;
-    int tuples_limit;
-};
-struct SQLQuery {
-    string action;  //Запись действия
-    string tableName;   //Запись имени таблицы при добавлении
-    fList* values;  //Запись значений INSERT
-    string line; //Запись строки WHERE
-
-    fList* tables;  //Запись таблиц SELECT
-    fList* columns; //Запись колонок SELECT
-    
-    string condition;   //Запись оператора OR AND
-    
-    bool isRight;   //Проверка синтаксиса
+    Node* operator[] (const int index) {    //Обращение по индексу
+        if (head == nullptr) return nullptr;
+        Node* p = head;
+        for (int i = 0; i < index; i++) {
+            p = p->next;
+            if (!p) return nullptr;
+        }
+        return p;
+    }
 };
 
 #endif
