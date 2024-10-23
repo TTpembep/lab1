@@ -60,8 +60,14 @@ void arrayInitiate(string query, string fileName) {
         cout << arr.sizeArr() << endl;
         return;
     }else if (action == "get") {
-        if (arr.find(value) != -1) cout << "true" << endl;
-        else cout << "false" << endl;
+        int index;
+        if (!convertIntoNum(temp, index)){
+            return;
+        }
+        string result;
+        if (!arr.get(index, result)){
+            return;
+        }cout << result << endl;
     }else{
         cout << "Action is not defined. " << endl;
         return;
@@ -88,4 +94,16 @@ bool convertIntoNum(const string& temporary, int& index) {
     }
     index = result;
     return true;
+}
+bool emptyFile (string fileName) {
+    ifstream file (fileName);
+
+    string temp;
+    if(getline(file, fileName)){
+        file.close();
+        return false;
+    }else{
+        file.close();
+        return true;
+    }
 }

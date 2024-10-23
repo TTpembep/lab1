@@ -153,5 +153,6 @@ struct dlList {  //Структура данных для двусвязанно
 };
 
 void dllistInitiate(string query, string fileName);
+bool emptyFile (string fileName);
 
 #endif

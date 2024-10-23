@@ -1,6 +1,8 @@
 #include "array.h"
 #include "forwardList.h"
 #include "doublyLinkedList.h"
+#include "queue.h"
+#include "stack.h"
 
 int main(int argc, char* argv[]){
     // argv[0] = ./dbms
@@ -24,16 +26,20 @@ int main(int argc, char* argv[]){
     query.erase(0,1);
     if (structType == 'M'){
         arrayInitiate(query, fileName);
-    }if (structType == 'F'){
+    }else if (structType == 'F'){
         flistInitiate (query, fileName);
-    }if (structType == 'L'){
+    }else if (structType == 'L'){
         dllistInitiate (query, fileName);
+    }else if (structType == 'Q'){
+        queueInitiate (query, fileName);
+    }else if (structType == 'S'){
+        stackInitiate (query, fileName);
     }
     // Реализовать universum print
     return 0;
 }
 /*
-g++ main.cpp forwardList.cpp doublyLinkedList.cpp array.cpp -o dbms
+g++ main.cpp forwardList.cpp doublyLinkedList.cpp array.cpp queue.cpp stack.cpp -o dbms
 ./dbms --file flist.data --query 'FPUSHH value'
 ./dbms --file flist.data --query 'FDELT'
 ./dbms --file dllist.data --query 'LPUSHT toy'

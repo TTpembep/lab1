@@ -128,5 +128,6 @@ struct fList {  //Структура данных для односвязанн�
 };
 
 void flistInitiate(string query, string fileName);
+bool emptyFile (string fileName);
 
 #endif

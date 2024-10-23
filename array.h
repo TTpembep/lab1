@@ -67,13 +67,13 @@ struct Array {
         ++size;
     }
 
-    int find(const string& value) {
-        for (int i = 0; i < size; ++i) {
-            if (data[i] == value) {
-                return i;
-            }
+    bool get(size_t index, string& result) {
+        if (index < 0 || index >= size) {
+            cout << "Index out of range." << endl;
+            return false;
         }
-        return -1;
+        result = data[index];
+        return true;
     }
 
     void remove(int index) {
@@ -131,5 +131,6 @@ struct Array {
 
 void arrayInitiate(string query, string fileName);
 bool convertIntoNum(const string& temporary, int& index);
+bool emptyFile (string fileName);
 
 #endif

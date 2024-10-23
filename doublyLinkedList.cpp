@@ -45,5 +45,6 @@ void dllistInitiate(string query, string fileName){
         return;
     }
     dll->write(fileName);
+    if (emptyFile(fileName)) filesystem::remove(fileName);
     return;
 }

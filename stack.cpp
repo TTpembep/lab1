@@ -1,6 +1,6 @@
-#include "forwardList.h"
+#include "stack.h"
 
-void flistInitiate(string query, string fileName){
+void stackInitiate(string query, string fileName){
     fileName = "containers/" + fileName;
     stringstream ss (query);
     string action;
@@ -16,7 +16,7 @@ void flistInitiate(string query, string fileName){
         }
     }
 
-    fList* fl = new fList();
+    Stack* stack = new Stack();
     if (filesystem::exists(fileName)){
         ifstream fin (fileName);
         string line;
@@ -26,26 +26,27 @@ void flistInitiate(string query, string fileName){
         stringstream ss(line);
         string elem;
 
+        Array arr;
         while (getline(ss, elem, ' ')){
-            fl->push_back(elem);
+            arr.insert(elem);
+        }
+        int index = arr.sizeArr();
+        for (int i = 0 ; i < index ; i++){
+            string res;
+            arr.get(i,res);
+            stack->push(res);
         }
     }else{
         ofstream file(fileName);
         file.close();
     }
-    if (action == "pushh") {fl->insert(value);}
-    else if (action == "pusht") {fl->push_back(value);}
-    else if (action == "delh") {fl->remove_head();}
-    else if (action == "delt") {fl->remove_tail();}
-    else if (action == "del") {fl->remove(value);}
-    else if (action == "get") {
-        if (fl->find(value) != nullptr) cout << "true" << endl;
-        else cout << "false" << endl;
-    }else{
+    if (action == "push") {stack->push(value);}
+    else if (action == "pop") {stack->remove();}
+    else{
         cout << "Action is not defined. " << endl;
         return;
     }
-    fl->write(fileName);
+    stack->write(fileName);
     if (emptyFile(fileName)) filesystem::remove(fileName);
     return;
 }

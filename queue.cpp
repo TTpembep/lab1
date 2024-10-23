@@ -1,6 +1,6 @@
-#include "forwardList.h"
+#include "queue.h"
 
-void flistInitiate(string query, string fileName){
+void queueInitiate(string query, string fileName){
     fileName = "containers/" + fileName;
     stringstream ss (query);
     string action;
@@ -16,7 +16,7 @@ void flistInitiate(string query, string fileName){
         }
     }
 
-    fList* fl = new fList();
+    Queue* queue = new Queue();
     if (filesystem::exists(fileName)){
         ifstream fin (fileName);
         string line;
@@ -27,25 +27,19 @@ void flistInitiate(string query, string fileName){
         string elem;
 
         while (getline(ss, elem, ' ')){
-            fl->push_back(elem);
+            queue->push(elem);
         }
     }else{
         ofstream file(fileName);
         file.close();
     }
-    if (action == "pushh") {fl->insert(value);}
-    else if (action == "pusht") {fl->push_back(value);}
-    else if (action == "delh") {fl->remove_head();}
-    else if (action == "delt") {fl->remove_tail();}
-    else if (action == "del") {fl->remove(value);}
-    else if (action == "get") {
-        if (fl->find(value) != nullptr) cout << "true" << endl;
-        else cout << "false" << endl;
-    }else{
+    if (action == "push") {queue->push(value);}
+    else if (action == "pop") {queue->remove();}
+    else{
         cout << "Action is not defined. " << endl;
         return;
     }
-    fl->write(fileName);
+    queue->write(fileName);
     if (emptyFile(fileName)) filesystem::remove(fileName);
     return;
 }
