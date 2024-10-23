@@ -1,4 +1,5 @@
 #include "forwardList.h"
+#include "doublyLinkedList.h"
 
 int main(int argc, char* argv[]){
     // argv[0] = ./dbms
@@ -24,12 +25,15 @@ int main(int argc, char* argv[]){
     query.erase(0,1);
     if (structType == 'F'){
         flistInitiate (query, fileName);
+    }if (structType == 'L'){
+        dllistInitiate (query, fileName);
     }
     // Реализовать universum print
     return 0;
 }
 /*
-g++ main.cpp forwardList.cpp -o dbms
+g++ main.cpp forwardList.cpp doublyLinkedList.cpp -o dbms
 ./dbms --file flist.data --query 'FPUSHH value'
 ./dbms --file flist.data --query 'FDELT'
+./dbms --file dllist.data --query 'LPUSHT toy'
 */

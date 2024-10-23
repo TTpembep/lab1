@@ -7,14 +7,14 @@
 #include <sstream>
 using namespace std;
 
-struct Node {   //Структура данных для узла односвязанного списка
+struct fNode {   //Структура данных для узла односвязанного списка
     string data;
-    Node* next;
-    Node(const string& data) : data(data), next(nullptr) {}
+    fNode* next;
+    fNode(const string& data) : data(data), next(nullptr) {}
 };
 struct fList {  //Структура данных для односвязанного списка
-    Node* head;
-    Node* tail;
+    fNode* head;
+    fNode* tail;
 
     fList() : head(nullptr), tail(nullptr) {}
 
@@ -23,22 +23,22 @@ struct fList {  //Структура данных для односвязанн�
     }
 
     void insert(const string& data) {   //Добавление элемента в начало списка
-        Node* newNode = new Node(data);
-        newNode->next = head;
-        head = newNode;
+        fNode* newfNode = new fNode(data);
+        newfNode->next = head;
+        head = newfNode;
     }
     void push_back(const string& data) {//Добавление элемента в конец списка
-        Node* newNode = new Node(data);
+        fNode* newfNode = new fNode(data);
         if (head == nullptr) {
-            head = newNode;
-            tail = newNode;
+            head = newfNode;
+            tail = newfNode;
             return;
         }
-        tail->next = newNode;
-        tail = newNode;
+        tail->next = newfNode;
+        tail = newfNode;
     }
-    Node* find(const string& data) {    //Поиск элемента в списке
-        Node* current = head;
+    fNode* find(const string& data) {    //Поиск элемента в списке
+        fNode* current = head;
         while (current != nullptr) {
             if (current->data == data) {
                 return current;
@@ -49,7 +49,7 @@ struct fList {  //Структура данных для односвязанн�
     }    
     void remove_head() {   //Удаление первого элемента
         if (head == nullptr) return;
-        Node* p = head;
+        fNode* p = head;
         head = p->next;
         delete p;
     }
@@ -59,7 +59,7 @@ struct fList {  //Структура данных для односвязанн�
             remove_head();
             return;
         }
-        Node* p = head;
+        fNode* p = head;
         while (p->next != tail) p = p->next;
         p->next = nullptr;
         delete tail;
@@ -75,8 +75,8 @@ struct fList {  //Структура данных для односвязанн�
             remove_tail();
             return;
         }
-        Node* slow = head;
-        Node* fast = head->next;
+        fNode* slow = head;
+        fNode* fast = head->next;
         while (fast && fast->data != data) {
             fast = fast->next;
             slow = slow->next;
@@ -89,7 +89,7 @@ struct fList {  //Структура данных для односвязанн�
         delete fast;
     }
     void print() {  //Вывод всех элементов списка
-        Node* current = head;
+        fNode* current = head;
         while (current != nullptr) {
             cout << current->data << " ";
             current = current->next;
@@ -98,25 +98,24 @@ struct fList {  //Структура данных для односвязанн�
     }
     void write(ofstream& fout) {  //Запись списка в файл
         if (head == nullptr) return; // Проверка на пустой список
-        Node* current = head;
+        fNode* current = head;
         while (current != nullptr) {
             fout << current->data << " ";
             current = current->next;
         }
-        //fout << endl;
     }
     void clear() {  //Освобождение памяти
-        Node* current = head;
+        fNode* current = head;
         while (current != nullptr) {
-            Node* temp = current;
+            fNode* temp = current;
             current = current->next;
             delete temp;
         }
         head = nullptr;
     }
-    Node* operator[] (const int index) {    //Обращение по индексу
+    fNode* operator[] (const int index) {    //Обращение по индексу
         if (head == nullptr) return nullptr;
-        Node* p = head;
+        fNode* p = head;
         for (int i = 0; i < index; i++) {
             p = p->next;
             if (!p) return nullptr;

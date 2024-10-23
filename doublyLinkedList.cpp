@@ -1,7 +1,7 @@
-#include "forwardList.h"
+#include "doublyLinkedList.h"
 
-void flistInitiate(string query, string fileName){
-    if (fileName != "flist.data") {
+void dllistInitiate(string query, string fileName){
+    if (fileName != "dllist.data") {
         cout << "Wrong file name. " << endl;
         return;
     }
@@ -23,18 +23,18 @@ void flistInitiate(string query, string fileName){
         cerr << "Unable to open file for reading" << endl;
         return;
     }
-    fList* fl = new fList();
+    dlList* dll = new dlList();
     string temp;
     while (fin >> temp) {
-        fl->push_back(temp);
+        dll->push_back(temp);
     }fin.close();
-    if (action == "pushh") {fl->insert(value);}
-    if (action == "pusht") {fl->push_back(value);}
-    if (action == "delh") {fl->remove_head();}
-    if (action == "delt") {fl->remove_tail();}
-    if (action == "del") {fl->remove(value);}
+    if (action == "pushh") {dll->insert(value);}
+    if (action == "pusht") {dll->push_back(value);}
+    if (action == "delh") {dll->remove_head();}
+    if (action == "delt") {dll->remove_tail();}
+    if (action == "del") {dll->remove(value);}
     if (action == "get") {
-        if (fl->find(value) != nullptr) cout << "true" << endl;
+        if (dll->find(value) != nullptr) cout << "true" << endl;
         else cout << "false" << endl;
     }
     ofstream fout("containers/" + fileName);
@@ -42,7 +42,7 @@ void flistInitiate(string query, string fileName){
         cerr << "Unable to open file for writing" << endl;
         return;
     }
-    fl->write(fout);
+    dll->write(fout);
     fout.close();
     return;
 }
