@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <filesystem>   //Для проверки наличия файла
 using namespace std;
 
 struct fNode {   //Структура данных для узла односвязанного списка
@@ -96,13 +97,15 @@ struct fList {  //Структура данных для односвязанн�
         }
         cout << endl;
     }
-    void write(ofstream& fout) {  //Запись списка в файл
+    void write(const string& fileName) {  //Запись списка в файл
+        ofstream fout(fileName);
         if (head == nullptr) return; // Проверка на пустой список
         fNode* current = head;
         while (current != nullptr) {
             fout << current->data << " ";
             current = current->next;
         }
+        fout.close();
     }
     void clear() {  //Освобождение памяти
         fNode* current = head;

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <filesystem>   //Для проверки наличия файла
 using namespace std;
 
 struct dlNode {   //Структура данных для узла двусвязанного списка
@@ -118,14 +119,15 @@ struct dlList {  //Структура данных для двусвязанно
         cout << endl;
     }
 
-    void write(ofstream& fout) {  //Запись списка в файл
+    void write(const string& fileName) {  //Запись списка в файл
+        ofstream fout(fileName);
         if (head == nullptr) return; // Проверка на пустой список
         dlNode* current = head;
         while (current != nullptr) {
             fout << current->data << " ";
             current = current->next;
         }
-        fout << endl;
+        fout.close();
     }
 
     void clear() {  //Освобождение памяти

@@ -1,10 +1,7 @@
 #include "forwardList.h"
 
 void flistInitiate(string query, string fileName){
-    if (fileName != "flist.data") {
-        cout << "Wrong file name. " << endl;
-        return;
-    }
+    fileName = "containers/" + fileName;
     stringstream ss (query);
     string action;
     getline(ss, action, ' ');
@@ -18,31 +15,36 @@ void flistInitiate(string query, string fileName){
             return;
         }
     }
-    ifstream fin("containers/" + fileName);
-    if (!fin.is_open()) {
-        cerr << "Unable to open file for reading" << endl;
-        return;
-    }
+
     fList* fl = new fList();
-    string temp;
-    while (fin >> temp) {
-        fl->push_back(temp);
-    }fin.close();
+    if (filesystem::exists(fileName)){
+        ifstream fin (fileName);
+        string line;
+        getline(fin, line);
+        fin.close();
+
+        stringstream ss(line);
+        string elem;
+
+        while (getline(ss, elem, ' ')){
+            fl->push_back(elem);
+        }
+    }else{
+        ofstream file(fileName);
+        file.close();
+    }
     if (action == "pushh") {fl->insert(value);}
-    if (action == "pusht") {fl->push_back(value);}
-    if (action == "delh") {fl->remove_head();}
-    if (action == "delt") {fl->remove_tail();}
-    if (action == "del") {fl->remove(value);}
-    if (action == "get") {
+    else if (action == "pusht") {fl->push_back(value);}
+    else if (action == "delh") {fl->remove_head();}
+    else if (action == "delt") {fl->remove_tail();}
+    else if (action == "del") {fl->remove(value);}
+    else if (action == "get") {
         if (fl->find(value) != nullptr) cout << "true" << endl;
         else cout << "false" << endl;
-    }
-    ofstream fout("containers/" + fileName);
-    if (!fout.is_open()) {
-        cerr << "Unable to open file for writing" << endl;
+    }else{
+        cout << "Action is not defined. " << endl;
         return;
     }
-    fl->write(fout);
-    fout.close();
+    fl->write(fileName);
     return;
 }

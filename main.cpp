@@ -1,3 +1,4 @@
+#include "array.h"
 #include "forwardList.h"
 #include "doublyLinkedList.h"
 
@@ -9,12 +10,10 @@ int main(int argc, char* argv[]){
         return 0;
     }
     string fileName = argv[2];  // argv[2] = flist.data
-    fstream fin;
-    fin.open("containers/" + fileName);
-    if (!fin.is_open()){
+    if (fileName.find(".data") == string::npos){
         cout << "Wrong file name. " << endl;
         return 0;
-    }fin.close();
+    }
     query = argv[3]; // argv[3] = --query
     if (query != "--query"){   
         cout << "Syntaxys error. " << endl;
@@ -23,7 +22,9 @@ int main(int argc, char* argv[]){
     query = argv[4]; // argv[4] = 'FPUSH value'
     char structType = query[0];
     query.erase(0,1);
-    if (structType == 'F'){
+    if (structType == 'M'){
+        arrayInitiate(query, fileName);
+    }if (structType == 'F'){
         flistInitiate (query, fileName);
     }if (structType == 'L'){
         dllistInitiate (query, fileName);
@@ -32,7 +33,7 @@ int main(int argc, char* argv[]){
     return 0;
 }
 /*
-g++ main.cpp forwardList.cpp doublyLinkedList.cpp -o dbms
+g++ main.cpp forwardList.cpp doublyLinkedList.cpp array.cpp -o dbms
 ./dbms --file flist.data --query 'FPUSHH value'
 ./dbms --file flist.data --query 'FDELT'
 ./dbms --file dllist.data --query 'LPUSHT toy'

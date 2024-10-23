@@ -1,10 +1,7 @@
 #include "doublyLinkedList.h"
 
 void dllistInitiate(string query, string fileName){
-    if (fileName != "dllist.data") {
-        cout << "Wrong file name. " << endl;
-        return;
-    }
+    fileName = "containers/" + fileName;
     stringstream ss (query);
     string action;
     getline(ss, action, ' ');
@@ -18,31 +15,35 @@ void dllistInitiate(string query, string fileName){
             return;
         }
     }
-    ifstream fin("containers/" + fileName);
-    if (!fin.is_open()) {
-        cerr << "Unable to open file for reading" << endl;
-        return;
-    }
     dlList* dll = new dlList();
-    string temp;
-    while (fin >> temp) {
-        dll->push_back(temp);
-    }fin.close();
+    if (filesystem::exists(fileName)){
+        ifstream fin (fileName);
+        string line;
+        getline(fin, line);
+        fin.close();
+
+        stringstream ss(line);
+        string elem;
+
+        while (getline(ss, elem, ' ')){
+            dll->push_back(elem);
+        }
+    }else{
+        ofstream file(fileName);
+        file.close();
+    }
     if (action == "pushh") {dll->insert(value);}
-    if (action == "pusht") {dll->push_back(value);}
-    if (action == "delh") {dll->remove_head();}
-    if (action == "delt") {dll->remove_tail();}
-    if (action == "del") {dll->remove(value);}
-    if (action == "get") {
+    else if (action == "pusht") {dll->push_back(value);}
+    else if (action == "delh") {dll->remove_head();}
+    else if (action == "delt") {dll->remove_tail();}
+    else if (action == "del") {dll->remove(value);}
+    else if (action == "get") {
         if (dll->find(value) != nullptr) cout << "true" << endl;
         else cout << "false" << endl;
-    }
-    ofstream fout("containers/" + fileName);
-    if (!fout.is_open()) {
-        cerr << "Unable to open file for writing" << endl;
+    }else{
+        cout << "Action is not defined. " << endl;
         return;
     }
-    dll->write(fout);
-    fout.close();
+    dll->write(fileName);
     return;
 }
