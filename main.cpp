@@ -3,9 +3,9 @@
 #include "doublyLinkedList.h"
 #include "queue.h"
 #include "stack.h"
+#include "hash_table.h"
 
-int main(int argc, char* argv[]){
-    // argv[0] = ./dbms
+int main(int argc, char* argv[]){   // argv[0] = ./dbms
     string query = argv[1];  // argv[1] = --file
     if (query != "--file"){   
         cout << "Syntaxys error. " << endl;
@@ -34,13 +34,24 @@ int main(int argc, char* argv[]){
         queueInitiate (query, fileName);
     }else if (structType == 'S'){
         stackInitiate (query, fileName);
+    }else if (structType == 'H'){
+        hashInitiate (query, fileName);
+    }else if (structType == 'P' && query == "RINT"){
+        ifstream file("containers/" + fileName);
+        string result;
+        while (getline(file, result)){
+            cout << result << endl;
+        }
+        file.close();
+    }else {
+        cout << "Syntaxys error. " << endl;
+        return 0;
     }
-    // Реализовать universum print
     return 0;
 }
 /*
-g++ main.cpp forwardList.cpp doublyLinkedList.cpp array.cpp queue.cpp stack.cpp -o dbms
+g++ main.cpp forwardList.cpp doublyLinkedList.cpp array.cpp queue.cpp stack.cpp hash_table.cpp -o dbms
 ./dbms --file flist.data --query 'FPUSHH value'
-./dbms --file flist.data --query 'FDELT'
-./dbms --file dllist.data --query 'LPUSHT toy'
+./dbms --file hash.data --query 'HPUSH key1 value1'
+./dbms --file test.data --query 'PRINT'
 */

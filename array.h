@@ -132,5 +132,6 @@ struct Array {
 void arrayInitiate(string query, string fileName);
 bool convertIntoNum(const string& temporary, int& index);
 bool emptyFile (string fileName);
+void printFile(string fileName);
 
 #endif
