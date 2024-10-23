@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 struct Node {   //Структура данных для узла односвязанного списка
@@ -29,7 +31,7 @@ struct fList {  //Структура данных для односвязанн�
         Node* newNode = new Node(data);
         if (head == nullptr) {
             head = newNode;
-            tail - newNode;
+            tail = newNode;
             return;
         }
         tail->next = newNode;
@@ -94,6 +96,15 @@ struct fList {  //Структура данных для односвязанн�
         }
         cout << endl;
     }
+    void write(ofstream& fout) {  //Запись списка в файл
+        if (head == nullptr) return; // Проверка на пустой список
+        Node* current = head;
+        while (current != nullptr) {
+            fout << current->data << " ";
+            current = current->next;
+        }
+        //fout << endl;
+    }
     void clear() {  //Освобождение памяти
         Node* current = head;
         while (current != nullptr) {
@@ -113,5 +124,7 @@ struct fList {  //Структура данных для односвязанн�
         return p;
     }
 };
+
+void flistInitiate(string query, string fileName);
 
 #endif
