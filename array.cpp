@@ -107,6 +107,3 @@ bool emptyFile (string fileName) {
         return true;
     }
 }
-void printFile(string fileName){
-    
-}
